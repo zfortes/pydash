@@ -41,12 +41,9 @@ class R2AProjeto_luc_otv_jos(IR2A):
         media_vazao = mean(self.vazao)
         if(self.whiteboard.get_amount_video_to_play() < 20):
             if (self.whiteboard.get_amount_video_to_play() < 10):
-                if (self.whiteboard.get_amount_video_to_play() < 5):
                     valor_esp_final = self.vazao[-1] * 0.6
-                else:
-                    valor_esp_final = self.vazao[-1] * 0.7
             else:
-                valor_esp_final = media_vazao * 0.8
+                valor_esp_final = self.vazao[-1] * 0.8
             # print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Lista de Vazoes - {self.vazao}')
             # print('')
 
@@ -91,13 +88,13 @@ class R2AProjeto_luc_otv_jos(IR2A):
                 valor_esp_final = self.vazao[-1] + self.vazao[-1] * 0.2
             
                 
-            print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Tamanho da Buffer else = {self.whiteboard.get_amount_video_to_play()}')
-            print('')
+        #     print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Tamanho da Buffer else = {self.whiteboard.get_amount_video_to_play()}')
+        #     print('')
             
 
 
-        print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Valor Final Provável = {valor_esp_final}')
-        print('')
+        # print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Valor Final Provável = {valor_esp_final}')
+        # print('')
 
         qualidade = self.lista_qi[0]
         for i in self.lista_qi:
@@ -111,15 +108,15 @@ class R2AProjeto_luc_otv_jos(IR2A):
             if qualidade == i:
                 index1 = index
 
-        print('')
-        print(f'>>>>>>>>>> Qualidade Selecionada {index1} - VALOR FINAL =  {qualidade}')
+        # print('')
+        # print(f'>>>>>>>>>> Qualidade Selecionada {index1} - VALOR FINAL =  {qualidade}')
         self.media_qi.append(index1)
-        print(f'>>>>>>>>>> Media Qualidade =  {mean(self.media_qi)}')
-        print('')
+        # print(f'>>>>>>>>>> Media Qualidade =  {mean(self.media_qi)}')
+        # print('')
 
         tamanho_da_lista = len(self.vazao)
-        print
-        if( tamanho_da_lista > 10 ):  ### Limpa a lista quando ela passa do tamanho 10
+        # print
+        if( tamanho_da_lista > 8 ):  ### Limpa a lista quando ela passa do tamanho 10
             self.vazao.pop(0)
 
 
