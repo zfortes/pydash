@@ -41,50 +41,49 @@ class R2AProjeto_luc_otv_jos(IR2A):
 
         if(self.whiteboard.get_amount_video_to_play() < 10):
             valor_esperado = mean(self.vazao)
+            valor_esp_final = self.vazao[-1] * 0.8
+            # print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Lista de Vazoes - {self.vazao}')
+            # print('')
 
-            print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Lista de Vazoes - {self.vazao}')
-            print('')
+            # print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Valor Inicial Provável = {valor_esperado}')
+            # print('')
 
-            print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Valor Inicial Provável = {valor_esperado}')
-            print('')
+            # tamanho_da_lista = len(self.vazao)
+            # print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Tamanho da lista = {tamanho_da_lista}')
+            # print('')
 
-            tamanho_da_lista = len(self.vazao)
-            print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Tamanho da lista = {tamanho_da_lista}')
-            print('')
+            # print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Tamanho da Buffer = {self.whiteboard.get_amount_video_to_play()}')
+            # print('')
 
-            print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Tamanho da Buffer = {self.whiteboard.get_amount_video_to_play()}')
-            print('')
-
-            if( tamanho_da_lista > 2 ):
-                diferenca = self.vazao[tamanho_da_lista-1] - self.vazao[tamanho_da_lista-3]
-                print(f'>>>>>> Ultimo valor da Lista Subtraido do Antepenúltimo -- Diferença = {diferenca}')
-            else:
-                diferenca = 0
+            # if( tamanho_da_lista > 2 ):
+            #     diferenca = self.vazao[tamanho_da_lista-1] - self.vazao[tamanho_da_lista-3]
+            #     print(f'>>>>>> Ultimo valor da Lista Subtraido do Antepenúltimo -- Diferença = {diferenca}')
+            # else:
+            #     diferenca = 0
             
-            print('')
+            # print('')
 
-            if( tamanho_da_lista > 5 ):  ### Limpa a lista quando ela passa do tamanho 10
-                self.vazao.clear() 
+            # if( tamanho_da_lista > 5 ):  ### Limpa a lista quando ela passa do tamanho 10
+            #     self.vazao.clear() 
             
 
-            if( diferenca < 0 ):
-                diferenca = diferenca * (-1)
-                valor_esp_final = (valor_esperado - diferenca) - valor_esperado * 0.2
-            else:
-                if(diferenca == 0):
-                    valor_esp_final = valor_esperado - (valor_esperado * 0.3)
-                else:
-                    if( tamanho_da_lista <= 3 ):
-                        valor_esp_final = (valor_esperado - diferenca) - (valor_esperado * 0.3)
-                    else:
-                        valor_esp_final = (valor_esperado - diferenca) - (valor_esperado * 0.2)
+            # if( diferenca < 0 ):
+            #     diferenca = diferenca * (-1)
+            #     valor_esp_final = (valor_esperado - diferenca) - valor_esperado * 0.2
+            # else:
+            #     if(diferenca == 0):
+            #         valor_esp_final = valor_esperado - (valor_esperado * 0.3)
+            #     else:
+            #         if( tamanho_da_lista <= 3 ):
+            #             valor_esp_final = (valor_esperado - diferenca) - (valor_esperado * 0.3)
+            #         else:
+            #             valor_esp_final = (valor_esperado - diferenca) - (valor_esperado * 0.2)
         
-        else:
-            tamanho_da_lista = len(self.vazao)
-            if( tamanho_da_lista > 5 ):  ### Limpa a lista quando ela passa do tamanho 10
-                self.vazao.clear()
-            
-            valor_esp_final = mean(self.vazao)
+        else: 
+            if (mean(self.vazao) > self.vazao[-1]):
+                valor_esp_final = mean(self.vazao)
+            else:
+                valor_esp_final = self.vazao[-1]
             
                 
             print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Tamanho da Buffer else = {self.whiteboard.get_amount_video_to_play()}')
@@ -100,16 +99,24 @@ class R2AProjeto_luc_otv_jos(IR2A):
             if valor_esp_final > i:
                 qualidade = i
 
+
+
         index1 = 0
         for index, i in enumerate(self.lista_qi):
             if qualidade == i:
                 index1 = index
 
         print('')
-        print(f'>>>>>>>>>> Qualidade Selecionada - VALOR FINAL =  {qualidade}')
+        print(f'>>>>>>>>>> Qualidade Selecionada {index1} - VALOR FINAL =  {qualidade}')
         self.media_qi.append(index1)
         print(f'>>>>>>>>>> Media Qualidade =  {mean(self.media_qi)}')
         print('')
+
+        tamanho_da_lista = len(self.vazao)
+        print
+        if( tamanho_da_lista > 8 ):  ### Limpa a lista quando ela passa do tamanho 10
+            self.vazao.pop(0)
+
 
 
         msg.add_quality_id(qualidade)
