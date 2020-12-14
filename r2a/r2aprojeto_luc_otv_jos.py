@@ -63,21 +63,21 @@ class R2AProjeto_luc_otv_jos(IR2A):
             
             print('')
 
-            if( tamanho_da_lista > 9 ):  ### Limpa a lista quando ela passa do tamanho 10
+            if( tamanho_da_lista > 5 ):  ### Limpa a lista quando ela passa do tamanho 10
                 self.vazao.clear() 
             
 
             if( diferenca < 0 ):
                 diferenca = diferenca * (-1)
-                valor_esp_final = (valor_esperado - diferenca)/2
+                valor_esp_final = (valor_esperado - diferenca)
             else:
                 if(diferenca == 0):
-                    valor_esp_final = valor_esperado/2.5
+                    valor_esp_final = valor_esperado
                 else:
                     if( tamanho_da_lista <= 3 ):
-                        valor_esp_final = (valor_esperado - diferenca)/2.3
+                        valor_esp_final = (valor_esperado - diferenca)
                     else:
-                        valor_esp_final = (valor_esperado - diferenca)/1.6
+                        valor_esp_final = (valor_esperado - diferenca)
         
         else:
             valor_esp_final = self.vazao[-1]
