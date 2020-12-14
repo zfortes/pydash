@@ -39,7 +39,7 @@ class R2AProjeto_luc_otv_jos(IR2A):
     def handle_segment_size_request(self, msg):
         self.tempo_request = time.time()
 
-        if(self.whiteboard.get_amount_video_to_play() < 20):
+        if(self.whiteboard.get_amount_video_to_play() < 10):
             valor_esperado = mean(self.vazao)
 
             print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Lista de Vazoes - {self.vazao}')
@@ -69,18 +69,22 @@ class R2AProjeto_luc_otv_jos(IR2A):
 
             if( diferenca < 0 ):
                 diferenca = diferenca * (-1)
-                valor_esp_final = (valor_esperado - diferenca)
+                valor_esp_final = (valor_esperado - diferenca) - valor_esperado * 0.2
             else:
                 if(diferenca == 0):
-                    valor_esp_final = valor_esperado
+                    valor_esp_final = valor_esperado - (valor_esperado * 0.3)
                 else:
                     if( tamanho_da_lista <= 3 ):
-                        valor_esp_final = (valor_esperado - diferenca)
+                        valor_esp_final = (valor_esperado - diferenca) - (valor_esperado * 0.3)
                     else:
-                        valor_esp_final = (valor_esperado - diferenca)
+                        valor_esp_final = (valor_esperado - diferenca) - (valor_esperado * 0.2)
         
         else:
-            valor_esp_final = self.vazao[-1]
+            tamanho_da_lista = len(self.vazao)
+            if( tamanho_da_lista > 5 ):  ### Limpa a lista quando ela passa do tamanho 10
+                self.vazao.clear()
+            
+            valor_esp_final = mean(self.vazao)
             
                 
             print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Tamanho da Buffer else = {self.whiteboard.get_amount_video_to_play()}')
