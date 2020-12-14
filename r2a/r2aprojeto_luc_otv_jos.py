@@ -39,88 +39,39 @@ class R2AProjeto_luc_otv_jos(IR2A):
     def handle_segment_size_request(self, msg):
         self.tempo_request = time.time()
         media_vazao = mean(self.vazao)
+
+        # Verifica o tamanho do Buffer, se for menor que 20 então verifica se é menor que 10
+        # Se for menor que 10 ele seta a vazao como tendo apenas 60% da quailidade a fim de 
+        # restaurar um tamanho aceitavél do buffer para evitar pausas.
+        # Se for entre 10 e 20 ele utiliza 79% da vazão para selecionar a prŕoxima qualidade.
+        # Se for maior 20 ele usa a maior qualidade possível entre a média ou o tamanho 
+        # máximo da última vazão deisponível.
         if(self.whiteboard.get_amount_video_to_play() < 20):
             if (self.whiteboard.get_amount_video_to_play() < 10):
                     valor_esp_final = self.vazao[-1] * 0.60
             else:
                 valor_esp_final = self.vazao[-1] * 0.79
-            # print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Lista de Vazoes - {self.vazao}')
-            # print('')
-
-            # print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Valor Inicial Provável = {valor_esperado}')
-            # print('')
-
-            # tamanho_da_lista = len(self.vazao)
-            # print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Tamanho da lista = {tamanho_da_lista}')
-            # print('')
-
-            # print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Tamanho da Buffer = {self.whiteboard.get_amount_video_to_play()}')
-            # print('')
-
-            # if( tamanho_da_lista > 2 ):
-            #     diferenca = self.vazao[tamanho_da_lista-1] - self.vazao[tamanho_da_lista-3]
-            #     print(f'>>>>>> Ultimo valor da Lista Subtraido do Antepenúltimo -- Diferença = {diferenca}')
-            # else:
-            #     diferenca = 0
-            
-            # print('')
-
-            # if( tamanho_da_lista > 5 ):  ### Limpa a lista quando ela passa do tamanho 10
-            #     self.vazao.clear() 
-            
-
-            # if( diferenca < 0 ):
-            #     diferenca = diferenca * (-1)
-            #     valor_esp_final = (valor_esperado - diferenca) - valor_esperado * 0.2
-            # else:
-            #     if(diferenca == 0):
-            #         valor_esp_final = valor_esperado - (valor_esperado * 0.3)
-            #     else:
-            #         if( tamanho_da_lista <= 3 ):
-            #             valor_esp_final = (valor_esperado - diferenca) - (valor_esperado * 0.3)
-            #         else:
-            #             valor_esp_final = (valor_esperado - diferenca) - (valor_esperado * 0.2)
-        
         else: 
             if (media_vazao > self.vazao[-1]):
                 valor_esp_final = media_vazao
             else:
                 valor_esp_final = self.vazao[-1]
-            
-                
-        #     print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Tamanho da Buffer else = {self.whiteboard.get_amount_video_to_play()}')
-        #     print('')
-            
 
-
-        # print(f'>>>>>>>>>>>>>>>>>>>>>>>>>> Valor Final Provável = {valor_esp_final}')
-        # print('')
-
+        # Busca a qualidade mais próxima que esteja abaixo do valor de vazão esperado.
         qualidade = self.lista_qi[0]
         for i in self.lista_qi:
             if valor_esp_final >= i:
                 qualidade = i
 
 
-
-        index1 = 0
-        for index, i in enumerate(self.lista_qi):
-            if qualidade == i:
-                index1 = index
-
-        # print('')
-        # print(f'>>>>>>>>>> Qualidade Selecionada {index1} - VALOR FINAL =  {qualidade}')
-        self.media_qi.append(index1)
-        # print(f'>>>>>>>>>> Media Qualidade =  {mean(self.media_qi)}')
-        # print('')
-
+        # Usar o histórico de vazões para selecionar a qualidade média do streaming.
+        # Para que a lista não vicie, apenas as últimas 10 vazões são consideradas 
+        # no algoritmo sendo que a vazão mais antiga sempre é descartada.
         tamanho_da_lista = len(self.vazao)
-        # print
-        if( tamanho_da_lista > 9 ):  ### Limpa a lista quando ela passa do tamanho 10
+        if (tamanho_da_lista > 9):  ### Limpa a lista quando ela passa do tamanho 10
             self.vazao.pop(0)
 
-
-
+        # Adiciona a qualidade mais próxima a vazão escolhida na lista do player.
         msg.add_quality_id(qualidade)
         
         self.send_down(msg)
