@@ -37,9 +37,9 @@ class R2AProjeto_luc_otv_jos(IR2A):
         media_vazao = mean(self.vazao)
 
         # Verifica o tamanho do Buffer, se for menor que 20 então verifica se é menor que 10
-        # Se for menor que 10 ele seta a vazao como tendo apenas 60% da quailidade a fim de 
+        # Se for menor que 10 ele seta a vazao como tendo apenas 55% da quailidade a fim de 
         # restaurar um tamanho aceitavél do buffer para evitar pausas.
-        # Se for entre 10 e 20 ele utiliza 79% da vazão para selecionar a prŕoxima qualidade.
+        # Se for entre 10 e 20 ele utiliza 68% da vazão para selecionar a prŕoxima qualidade.
         # Se for maior 20 ele usa a maior qualidade possível entre a média ou o tamanho 
         # máximo da última vazão deisponível.
         if(self.whiteboard.get_amount_video_to_play() < 20):
