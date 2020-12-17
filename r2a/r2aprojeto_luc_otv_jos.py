@@ -48,20 +48,33 @@ class R2AProjeto_luc_otv_jos(IR2A):
         # máximo da última vazão deisponível.
         if(self.whiteboard.get_amount_video_to_play() < 20):
             if (self.whiteboard.get_amount_video_to_play() < 10):
-                    valor_esp_final = self.vazao[-1] * 0.60
+                    valor_esp_final = self.vazao[-1] * 0.55
             else:
-                valor_esp_final = self.vazao[-1] * 0.79
+                valor_esp_final = self.vazao[-1] * 0.68
         else: 
             if (media_vazao > self.vazao[-1]):
                 valor_esp_final = media_vazao
             else:
                 valor_esp_final = self.vazao[-1]
 
+        
+
         # Busca a qualidade mais próxima que esteja abaixo do valor de vazão esperado.
         qualidade = self.lista_qi[0]
         for i in self.lista_qi:
             if valor_esp_final >= i:
                 qualidade = i
+
+        print()
+        print("======================================================================")
+        print("Vazao atual ----------> {:.0f}".format(self.vazao[-1]))
+        print("Vazao esperada -------> {:.0f}".format(valor_esp_final))
+        print("Qualidade selecionada = {:.0f}".format(qualidade))
+        if valor_esp_final > qualidade :
+            print(" Maior vazao")
+        else:
+            print(" Maior qualidade")
+        print("======================================================================")
 
 
         # Usar o histórico de vazões para selecionar a qualidade média do streaming.
