@@ -50,7 +50,7 @@ class R2AProjeto_luc_otv_jos(IR2A):
             if (self.whiteboard.get_amount_video_to_play() < 10):
                     valor_esp_final = self.vazao[-1] * 0.55
             else:
-                valor_esp_final = self.vazao[-1] * 0.68
+                valor_esp_final = media_vazao * 0.68
         else: 
             if (media_vazao > self.vazao[-1]):
                 valor_esp_final = media_vazao
@@ -81,7 +81,7 @@ class R2AProjeto_luc_otv_jos(IR2A):
         # Para que a lista não vicie, apenas as últimas 10 vazões são consideradas 
         # no algoritmo sendo que a vazão mais antiga sempre é descartada.
         tamanho_da_lista = len(self.vazao)
-        if (tamanho_da_lista > 9):  ### Limpa a lista quando ela passa do tamanho 10
+        if (tamanho_da_lista > 20):  ### Limpa a lista quando ela passa do tamanho 10
             self.vazao.pop(0)
 
         # Adiciona a qualidade mais próxima a vazão escolhida na lista do player.
