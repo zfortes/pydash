@@ -46,7 +46,7 @@ class R2AProjeto_luc_otv_jos(IR2A):
             if (self.whiteboard.get_amount_video_to_play() < 10):
                     valor_esp_final = self.vazao[-1] * 0.55
             else:
-                valor_esp_final = self.vazao[-1] * 0.68
+                valor_esp_final = media_vazao * 0.68
         else: 
             if (media_vazao > self.vazao[-1]):
                 valor_esp_final = media_vazao
