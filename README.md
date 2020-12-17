@@ -1,8 +1,7 @@
 # pyDash
 A Python Dash Project
 
-Alunos:
-
+# Alunos
 Otávio Souza de Oliveira - 150143401
 Lucas Junior Ribas - 160052289
 José Fortes Neto - 160128331
