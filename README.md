@@ -2,9 +2,9 @@
 A Python Dash Project
 
 # Alunos
-Otávio Souza de Oliveira - 150143401
-Lucas Junior Ribas - 160052289
-José Fortes Neto - 160128331
+* Otávio Souza de Oliveira - 150143401
+* Lucas Junior Ribas - 160052289
+* José Fortes Neto - 160128331
 
 
 ## Pré-requisitos
