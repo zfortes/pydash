@@ -8,36 +8,32 @@ from base.whiteboard import Whiteboard
 
 class R2AProjeto_luc_otv_jos(IR2A):
 
-    def __init__(self, id):
-        IR2A.__init__(self,id)
-        self.vazao = []
-        self.tempo_request = 0
-        self.lista_qi = []
-
-        self.media_qi = []
+    def __init__(self, id):                             #
+        IR2A.__init__(self,id)                          #
+        self.vazao = []                                 # Lista de Throughput
+        self.tempo_request = 0                          # Várialvel para o Tempo
+        self.lista_qi = []                              # Lista de Qualidades
     
     def handle_xml_request(self, msg):
-
-        self.tempo_request = time.time()
-        
-        self.send_down(msg)
+        self.tempo_request = time.time()                # Marca o tempo da request
+        self.send_down(msg)                             # Envia a mensagem para a camada de baixo
         
 
 
     def handle_xml_response(self, msg):
         
-        parser_a = parse_mpd(msg.get_payload())
-        self.lista_qi = parser_a.get_qi()
-
-        t = time.time() - self.tempo_request
-        self.vazao.append(msg.get_bit_length() / t)
-
-        self.send_up(msg)
+        parser_a = parse_mpd(msg.get_payload())         # Inicializa o parser com o payload da mensagem
+        self.lista_qi = parser_a.get_qi()               # Busca a lista de Qualidades de download
+                                                        #
+        t = time.time() - self.tempo_request            # Calcula o RTT
+        self.vazao.append(msg.get_bit_length() / t)     # Insere na Lista de Throughput a Vazao atual
+                                                        #
+        self.send_up(msg)                               # Envia a mensagem para a camada de cima
     
 
 
     def handle_segment_size_request(self, msg):
-        self.tempo_request = time.time()
+        self.tempo_request = time.time()            
         media_vazao = mean(self.vazao)
 
         # Verifica o tamanho do Buffer, se for menor que 20 então verifica se é menor que 10
@@ -91,18 +87,13 @@ class R2AProjeto_luc_otv_jos(IR2A):
     
 
 
-    def handle_segment_size_response(self, msg):
-
-        t = time.time() - self.tempo_request
-        self.vazao.append(msg.get_bit_length() / t)
-
-        
-        self.send_up(msg)
-
-
-
-    def initialize(self):
-        pass
-
-    def finalization(self):
-        pass
+    def handle_segment_size_response(self, msg):        #
+        t = time.time() - self.tempo_request            #
+        self.vazao.append(msg.get_bit_length() / t)     # Calcula a vazão na resposta e insere na Lista
+        self.send_up(msg)                               # Envia a mensagem para a camada de cima
+                                                        #
+    def initialize(self):                               #
+        pass                                            #
+                                                        #
+    def finalization(self):                             #
+        pass                                            #
